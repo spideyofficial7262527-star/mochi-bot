@@ -1,37 +1,30 @@
 name: Build Mochi Firmware
 
 on:
-workflow_dispatch:
-push:
-paths:
-- 'platformio.ini'
-- 'src/'
-- 'include/'
-- 'lib/**'
-- '.github/workflows/build-mochi.yml'
+  workflow_dispatch:
 
 jobs:
-build:
-runs-on: ubuntu-latest
+  build:
+    runs-on: ubuntu-latest
 
-steps:
-  - name: Download Mochi source
-    uses: actions/checkout@v4
+    steps:
+      - name: Download Mochi source
+        uses: actions/checkout@v4
 
-  - name: Set up Python
-    uses: actions/setup-python@v5
-    with:
-      python-version: '3.x'
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
 
-  - name: Install PlatformIO
-    run: pip install platformio
+      - name: Install PlatformIO
+        run: pip install platformio
 
-  - name: Compile Mochi
-    run: pio run -e esp32c3_supermini
+      - name: Compile Mochi
+        run: pio run -e esp32c3_supermini
 
-  - name: Upload firmware files
-    uses: actions/upload-artifact@v4
-    with:
-      name: mochi-firmware
-      path: .pio/build/esp32c3_supermini/
-      if-no-files-found: error
+      - name: Upload firmware files
+        uses: actions/upload-artifact@v4
+        with:
+          name: mochi-firmware
+          path: .pio/build/esp32c3_supermini/
+          if-no-files-found: error
